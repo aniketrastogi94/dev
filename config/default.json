@@ -1,0 +1,6 @@
+{
+    "mongoURI":"mongodb+srv://admin-aniket:test123@cluster0.xjs8v.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret":"mysecrettoken",
+    "githubClientId":"fb928dc5e1b4a51fe454",
+    "githubSecret":"3f3bd6b21449a01b3c1dcbaa3043b05e9bf8fb4e"
+}
