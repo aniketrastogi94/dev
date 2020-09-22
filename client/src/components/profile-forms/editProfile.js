@@ -1,6 +1,6 @@
 import React,{ Fragment, useState,useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {Link,withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {createProfile,getCurrentProfile} from '../../actions/profile';
 
@@ -53,7 +53,7 @@ const EditProfile = ({ profile:{profile,loading}, createProfile,getCurrentProfil
             youtube:loading || !profile.social ? '' :profile.social.youtube,
             instagram:loading || !profile.social ? '' :profile.social.instagram,
         })
-    },[loading]);
+    },[loading,getCurrentProfile]);
 
     const onChange=e=>setFormData({...formData,[e.target.name]:e.target.value});
     const onSubmit=(e)=>{
