@@ -1,6 +1,6 @@
 import React,{Fragment, useState} from 'react';
 import PropTypes from 'prop-types';
-import {withRouter} from 'react-router-dom';
+import {Link,withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {addEducation} from '../../actions/profile';
 const AddEducation = ({addEducation,history}) => {
@@ -100,7 +100,7 @@ const AddEducation = ({addEducation,history}) => {
           ></textarea>
         </div>
         <input type="submit" className="btn btn-primary my-1" />
-        <a className="btn btn-light my-1" href="dashboard.html">Go Back</a>
+        <Link className="btn btn-light my-1" to="/dashboard">Go Back</Link>
       </form>
         </Fragment>
     )
