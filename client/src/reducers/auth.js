@@ -5,7 +5,10 @@ import {
     AUTH_ERROR,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
-    LOGOUT, DELETE_ACCOUNT
+    LOGOUT, DELETE_ACCOUNT,
+    RESET_PASSWORD,
+    NEW_PASSWORD,
+    LOGINWITHGOOGLE
 } from '../actions/types';
 
 const intialState={
@@ -27,6 +30,7 @@ export default function(state=intialState,action){
             };
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
+        case LOGINWITHGOOGLE:
             localStorage.setItem('token',payload.token);
             return {
                 ...state,
@@ -34,6 +38,18 @@ export default function(state=intialState,action){
                 isAuthenticated:true,
                 loading:false
             };
+        case RESET_PASSWORD:
+            return {
+                ...state,
+                ...payload,
+                loading:false
+            };
+        case NEW_PASSWORD:
+            return {
+                ...state,
+                ...payload,
+                loading:false
+            }
         case LOGIN_FAIL:
         case REGISTER_FAIL:
         case AUTH_ERROR:

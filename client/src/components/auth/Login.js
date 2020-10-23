@@ -2,14 +2,24 @@ import React,{Fragment,useState} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {login} from '../../actions/auth';
-const Login=({login,isAuthenticated})=>{
+import {login,loginwithgoogle} from '../../actions/auth';
+import GoogleLogin from 'react-google-login';
+import {clientid} from '../../c.env';
+
+const Login=({login,isAuthenticated,loginwithgoogle})=>{
     const [formData,setFormData]=useState({
         email:'',
         password:''
     });
 
     const {email,password}=formData;
+    const responseSuccess=(response)=>{
+        console.log(response);
+        loginwithgoogle(response.tokenId);
+      }
+      const responseError=(response)=>{
+        console.log(response);
+      }
 
     const onChange=e=>{
         setFormData({...formData,[e.target.name]:e.target.value});
@@ -48,15 +58,25 @@ const Login=({login,isAuthenticated})=>{
                         minLength="6"
                     />
                 </div>
+                <p className="my-1"><Link to="/reset">Forget Password</Link></p>
                 <input type="submit" className="btn btn-primary" value="Login" />
             </form>
+            <GoogleLogin
+                clientId="403380080270-6rpdj7ll4gkvlrvi4s03imtk3e487nuo.apps.googleusercontent.com"
+                buttonText="Login with Google"
+                onSuccess={responseSuccess}
+                onFailure={responseError}
+                cookiePolicy={'single_host_origin'}
+            />
             <p className="my-1">Don't have an account? <Link to="/register">Sign Up</Link></p>
+            
         </Fragment>
     );
 }
 
 Login.prototypes={
     login:PropTypes.func.isRequired,
+    loginwithgoogle:PropTypes.func.isRequired,
     isAuthenticated:PropTypes.bool
 }
 
@@ -67,4 +87,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps,{login})(Login);
+export default connect(mapStateToProps,{login,loginwithgoogle})(Login);

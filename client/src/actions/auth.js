@@ -7,7 +7,11 @@ import {
     AUTH_ERROR,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
-    LOGOUT, CLEAR_PROFILE
+    RESET_PASSWORD,
+    LOGOUT, 
+    CLEAR_PROFILE,
+    NEW_PASSWORD,
+    LOGINWITHGOOGLE
 } from './types';
 import setAuthToken from '../utilis/setAuthToken';
 
@@ -25,6 +29,64 @@ export const loadUser=()=>async dispatch=>{
         dispatch({
             type:AUTH_ERROR
         });
+    }
+}
+
+export const loginwithgoogle=(token)=>async dispatch=>{
+    const config={
+        headers:{
+            'Content-Type':'application/json'
+        }
+    };
+    const body=JSON.stringify({token});
+    try{
+        const res=await axios.post('/api/auth/loginwithgoogle',body,config);
+        dispatch({
+            type:LOGINWITHGOOGLE,
+            payload:res.data
+        });
+    }catch(err){
+        console.log(err.message);
+    }
+}
+
+export const reset=(email)=>async dispatch=>{
+    const config={
+        headers:{
+            'Content-Type':'application/json'
+        }
+    };
+    const body=JSON.stringify({email});
+    try {
+        const res=await axios.post('/api/users/reset',body,config);
+        console.log(res.data);
+        dispatch({
+            type:RESET_PASSWORD,
+            payload:res.data
+        });
+        dispatch(setAlert('Please check your email','success'));
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
+export const newPassword=(password,token)=>async dispatch=>{
+    const config={
+        headers:{
+            'Content-Type':'application/json'
+        }
+    };
+    const body=JSON.stringify({password,token});
+    console.log(body);
+    try{
+        const res=await axios.post('/api/users/new-password',body,config);
+        dispatch({
+            type:NEW_PASSWORD,
+            payload:res.data
+        });
+        dispatch(setAlert('Password changed,please go back to login','success'));
+    }catch(err){
+        console.log(err.message);
     }
 }
 

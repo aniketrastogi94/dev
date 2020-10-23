@@ -6,6 +6,8 @@ const config=require('config');
 const { check,validationResult}= require('express-validator/check');
 const jwt = require('jsonwebtoken');
 const bcrypt=require('bcryptjs');
+const { OAuth2Client }=require('google-auth-library');
+const client=new OAuth2Client("403380080270-6rpdj7ll4gkvlrvi4s03imtk3e487nuo.apps.googleusercontent.com")
 
 router.get('/',auth, async (req,res)=>{
     try{
@@ -61,5 +63,39 @@ router.post('/',[
 
 
 );
+
+router.post('/loginwithgoogle',(req,res)=>{
+    const {token}=req.body;
+    client.verifyIdToken({idToken:token,audience:"403380080270-6rpdj7ll4gkvlrvi4s03imtk3e487nuo.apps.googleusercontent.com"}).then(response=>{
+        const {email_verified,email,name}=response.payload;
+        //console.log(email,email_verified,name);
+        if(email_verified){
+            User.findOne({email}).exec((err,user)=>{
+                if(err){
+                    return res.status(400).json({error:"Something went wrong"});
+                }else{
+                    if(user){
+                        jwt.sign({_id:user._id},config.get('jwtSecret'),{expiresIn:360000},(err,token)=>{
+                            if(err) throw err;
+                            return res.json({token});
+                        })
+                    }else{
+                        let password=email;
+                        let newuser=new User({name,email,password});
+                        newuser.save((err,data)=>{
+                            if(err){
+                                return res.status(500).json({error:"something went wrong"});
+                            }
+                            const token=jwt.sign({_id:data._id},config.get('jwtSecret'),{expiresIn:360000});
+                            const {name,email,_id}=newuser;
+                            return res.json({token,user:{_id,name,email}});
+                        })
+                    }
+                }
+            })
+        }
+
+    })
+})
 
 module.exports=router;
