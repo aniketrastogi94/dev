@@ -32,19 +32,20 @@ export const loadUser=()=>async dispatch=>{
     }
 }
 
-export const loginwithgoogle=(token)=>async dispatch=>{
+export const loginwithgoogle=(tokenID)=>async dispatch=>{
     const config={
         headers:{
             'Content-Type':'application/json'
         }
     };
-    const body=JSON.stringify({token});
+    const body=JSON.stringify({tokenID});
     try{
         const res=await axios.post('/api/auth/loginwithgoogle',body,config);
         dispatch({
             type:LOGINWITHGOOGLE,
             payload:res.data
         });
+        dispatch(loadUser());
     }catch(err){
         console.log(err.message);
     }

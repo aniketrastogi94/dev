@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {login,loginwithgoogle} from '../../actions/auth';
 import GoogleLogin from 'react-google-login';
-import {clientid} from '../../c.env';
+
 
 const Login=({login,isAuthenticated,loginwithgoogle})=>{
     const [formData,setFormData]=useState({
@@ -14,7 +14,6 @@ const Login=({login,isAuthenticated,loginwithgoogle})=>{
 
     const {email,password}=formData;
     const responseSuccess=(response)=>{
-        console.log(response);
         loginwithgoogle(response.tokenId);
       }
       const responseError=(response)=>{
