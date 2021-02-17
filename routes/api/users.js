@@ -11,7 +11,7 @@ const sendgrid=require("nodemailer-sendgrid-transport");
 const crypto=require('crypto');
 const transporter=nodemailer.createTransport(sendgrid({
     auth:{
-        api_key:"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"
+        api_key:"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"
     }
 }));
 
@@ -60,7 +60,7 @@ router.post('/',[
                 if(err) throw err;
                 transporter.sendMail({
                     to:user.email,
-                    from:"chamolirohit22@gmail.com",
+                    from:'chamolirohit22@gmail.com',
                     subject:"Welcome to devcommunity",
                     html:"<h1>Welcome to the Developers Community</h1>"
                 })             

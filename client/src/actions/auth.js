@@ -8,7 +8,7 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     RESET_PASSWORD,
-    LOGOUT, 
+    LOGOUT,
     CLEAR_PROFILE,
     NEW_PASSWORD,
     LOGINWITHGOOGLE
@@ -24,7 +24,7 @@ export const loadUser=()=>async dispatch=>{
             type:USER_LOADED,
             payload:res.data
         });
-        
+
     } catch (err) {
         dispatch({
             type:AUTH_ERROR
@@ -78,7 +78,6 @@ export const newPassword=(password,token)=>async dispatch=>{
         }
     };
     const body=JSON.stringify({password,token});
-    console.log(body);
     try{
         const res=await axios.post('/api/users/new-password',body,config);
         dispatch({
